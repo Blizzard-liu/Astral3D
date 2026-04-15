@@ -1,0 +1,24 @@
+{
+  "name": "@astral3d/docs",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Astral3D 文档",
+  "packageManager": "pnpm@10.8.1",
+  "author": "ErSan <mlt131220@163.com>",
+  "scripts": {
+    "docs:dev": "vuepress dev src",
+    "docs:dev-clean": "vuepress dev src --clean-cache --clean-temp",
+    "docs:build": "vuepress build src --clean-cache --clean-temp",
+    "docs:preview": "http-server src/.vuepress/dist",
+    "vp-update": "pnpm dlx vp-update"
+  },
+  "devDependencies": {
+    "@vuepress/bundler-vite": "^2.0.0-rc.24",
+    "http-server": "^14.1.1",
+    "sass-embedded": "^1.85.0",
+    "typescript": "catalog:",
+    "vue": "catalog:",
+    "vuepress": "^2.0.0-rc.24",
+    "vuepress-theme-plume": "^1.0.0-rc.164"
+  }
+}

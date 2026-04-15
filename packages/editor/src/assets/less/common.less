@@ -1,0 +1,59 @@
+.sidebar-config-item{
+  display: flex;
+  align-items: center;
+  padding: 0 1rem 0.5rem 1rem;
+  width: calc(100% - 2rem);
+
+  & > :first-child{
+    width: 30%;
+  }
+
+  & > :last-child{
+    width: 70%;
+  }
+}
+
+.es-upload-card {
+  .n-upload-file-list {
+    &--grid {
+      grid-template-columns:repeat(1, 100%);
+      width: 100%;
+      min-height: 120px;
+    }
+
+    .n-upload-trigger {
+      &--image-card {
+        width: 100%;
+        height: 100%;
+        border-radius: 0.25rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+
+        .n-icon {
+          margin-bottom: 12px;
+          margin-left: 1rem;
+        }
+
+        .n-text {
+          font-size: 0.7rem;
+          margin-right: 1rem;
+        }
+      }
+    }
+
+    .n-upload-file {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &-dragger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "name": "@astral3d/editor",
+  "author": "ErSan<mlt131220@163.com>",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "tsc": "tsc",
+    "preview": "vite preview"
+  },
+  "engines": {
+    "node": ">=23.11.0"
+  },
+  "dependencies": {
+    "@ant-design/colors": "^7.0.2",
+    "@astral3d/engine": "workspace:^",
+    "@gltf-transform/core": "^4.2.1",
+    "@gltf-transform/extensions": "^4.2.1",
+    "@gltf-transform/functions": "^4.2.1",
+    "@vicons/carbon": "^0.12.0",
+    "@vicons/ionicons5": "^0.12.0",
+    "@vueuse/core": "^13.2.0",
+    "animate.css": "^4.1.1",
+    "axios": "^1.8.2",
+    "disable-devtool": "^0.3.8",
+    "keyframe-resample": "^0.1.0",
+    "meshoptimizer": "^0.23.0",
+    "monaco-editor": "^0.52.2",
+    "naive-ui": "catalog:",
+    "pinia": "^2.1.4",
+    "three": "catalog:",
+    "vite-plugin-static-copy": "catalog:",
+    "vue": "catalog:",
+    "vue-i18n": "^11.1.2",
+    "vue-router": "^4.3.2"
+  },
+  "devDependencies": {
+    "@astral3d/build-vite-plugins": "workspace:^",
+    "@types/three": "catalog:",
+    "@vitejs/plugin-vue":"catalog:",
+    "dotenv": "^16.3.1",
+    "less": "^4.3.0",
+    "typescript": "catalog:",
+    "unocss": "^66.1.0-beta.12",
+    "unplugin-vue-components": "^0.27.3",
+    "vite": "catalog:",
+    "vite-plugin-mkcert": "^1.16.0"
+  }
+}

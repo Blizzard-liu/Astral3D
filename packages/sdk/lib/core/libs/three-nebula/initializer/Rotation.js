@@ -1,0 +1,54 @@
+import { Vector3 } from '../core/three';
+import Initializer from './Initializer';
+import { INITIALIZER_TYPE_ROTATION as type } from './types';
+/**
+ * Sets the rotation property on initialized particles.
+ *
+ */
+
+export default class Rotation extends Initializer {
+  /**
+   * Constructs a Rotation property instance.
+   *
+   * @param {number} x - X axis rotation
+   * @param {number} y - Y axis rotation
+   * @param {number} z - Z axis rotation
+   * @param {boolean} [useEmitterRotation=true] - Determines if we should use the emitter's rotation as the starting rotation
+   * @param {boolean} [isEnabled=true] - Determines if the initializer should be enabled or not
+   * @return void
+   */
+  constructor(x, y, z, useEmitterRotation = true, isEnabled = true) {
+    super(type, isEnabled);
+    this.rotation = new Vector3(x, y, z);
+    this.useEmitterRotation = useEmitterRotation;
+  }
+  /**
+   * Sets the particle's initial rotation.
+   *
+   * @param {Particle} particle - the particle to initialize the property on
+   * @return void
+   */
+
+
+  initialize(particle) {
+    if (this.useEmitterRotation && particle.parent) {
+      // set initial particle rotation to that of the particle's emitter then add our set rotation
+      particle.rotation.copy(particle.parent.rotation).add(this.rotation);
+    } else {
+      particle.rotation.copy(this.rotation);
+    }
+  }
+
+  static fromJSON(json) {
+    const {
+      x,
+      y,
+      z,
+      useEmitterRotation = true,
+      isEnabled = true
+    } = json;
+    return new Rotation(x, y, z, useEmitterRotation, isEnabled);
+  }
+
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9pbml0aWFsaXplci9Sb3RhdGlvbi5qcyJdLCJuYW1lcyI6WyJWZWN0b3IzIiwiSW5pdGlhbGl6ZXIiLCJJTklUSUFMSVpFUl9UWVBFX1JPVEFUSU9OIiwidHlwZSIsIlJvdGF0aW9uIiwiY29uc3RydWN0b3IiLCJ4IiwieSIsInoiLCJ1c2VFbWl0dGVyUm90YXRpb24iLCJpc0VuYWJsZWQiLCJyb3RhdGlvbiIsImluaXRpYWxpemUiLCJwYXJ0aWNsZSIsImNvcHkiLCJwYXJlbnQiLCJhZGQiLCJmcm9tSlNPTiIsImpzb24iXSwibWFwcGluZ3MiOiJBQUFBLFNBQVNBLE9BQVQsUUFBd0IsZUFBeEI7QUFDQSxPQUFPQyxXQUFQLE1BQXdCLGVBQXhCO0FBQ0EsU0FBU0MseUJBQXlCLElBQUlDLElBQXRDLFFBQWtELFNBQWxEO0FBRUE7QUFDQTtBQUNBO0FBQ0E7O0FBQ0EsZUFBZSxNQUFNQyxRQUFOLFNBQXVCSCxXQUF2QixDQUFtQztBQUNoRDtBQUNGO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNFSSxFQUFBQSxXQUFXLENBQUNDLENBQUQsRUFBSUMsQ0FBSixFQUFPQyxDQUFQLEVBQVVDLGtCQUFrQixHQUFDLElBQTdCLEVBQW1DQyxTQUFTLEdBQUcsSUFBL0MsRUFBcUQ7QUFDOUQsVUFBTVAsSUFBTixFQUFZTyxTQUFaO0FBQ0EsU0FBS0MsUUFBTCxHQUFnQixJQUFJWCxPQUFKLENBQVlNLENBQVosRUFBY0MsQ0FBZCxFQUFnQkMsQ0FBaEIsQ0FBaEI7QUFDQSxTQUFLQyxrQkFBTCxHQUEwQkEsa0JBQTFCO0FBQ0Q7QUFFRDtBQUNGO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7OztBQUNFRyxFQUFBQSxVQUFVLENBQUNDLFFBQUQsRUFBVztBQUNuQixRQUFHLEtBQUtKLGtCQUFSLEVBQ0E7QUFDRTtBQUNBSSxNQUFBQSxRQUFRLENBQUNGLFFBQVQsQ0FBa0JHLElBQWxCLENBQXVCRCxRQUFRLENBQUNFLE1BQVQsQ0FBZ0JKLFFBQXZDLEVBQWlESyxHQUFqRCxDQUFxRCxLQUFLTCxRQUExRDtBQUNELEtBSkQsTUFNQTtBQUNFRSxNQUFBQSxRQUFRLENBQUNGLFFBQVQsQ0FBa0JHLElBQWxCLENBQXVCLEtBQUtILFFBQTVCO0FBQ0Q7QUFDRjs7QUFFYyxTQUFSTSxRQUFRLENBQUNDLElBQUQsRUFBTztBQUNwQixVQUFNO0FBQUVaLE1BQUFBLENBQUY7QUFBS0MsTUFBQUEsQ0FBTDtBQUFRQyxNQUFBQSxDQUFSO0FBQVdDLE1BQUFBLGtCQUFrQixHQUFHLElBQWhDO0FBQXNDQyxNQUFBQSxTQUFTLEdBQUc7QUFBbEQsUUFBMkRRLElBQWpFO0FBRUEsV0FBTyxJQUFJZCxRQUFKLENBQWFFLENBQWIsRUFBZ0JDLENBQWhCLEVBQW1CQyxDQUFuQixFQUFzQkMsa0JBQXRCLEVBQTBDQyxTQUExQyxDQUFQO0FBQ0Q7O0FBdkMrQyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IFZlY3RvcjMgfSBmcm9tICcuLi9jb3JlL3RocmVlJztcbmltcG9ydCBJbml0aWFsaXplciBmcm9tICcuL0luaXRpYWxpemVyJztcbmltcG9ydCB7IElOSVRJQUxJWkVSX1RZUEVfUk9UQVRJT04gYXMgdHlwZSB9IGZyb20gJy4vdHlwZXMnO1xuXG4vKipcbiAqIFNldHMgdGhlIHJvdGF0aW9uIHByb3BlcnR5IG9uIGluaXRpYWxpemVkIHBhcnRpY2xlcy5cbiAqXG4gKi9cbmV4cG9ydCBkZWZhdWx0IGNsYXNzIFJvdGF0aW9uIGV4dGVuZHMgSW5pdGlhbGl6ZXIge1xuICAvKipcbiAgICogQ29uc3RydWN0cyBhIFJvdGF0aW9uIHByb3BlcnR5IGluc3RhbmNlLlxuICAgKlxuICAgKiBAcGFyYW0ge251bWJlcn0geCAtIFggYXhpcyByb3RhdGlvblxuICAgKiBAcGFyYW0ge251bWJlcn0geSAtIFkgYXhpcyByb3RhdGlvblxuICAgKiBAcGFyYW0ge251bWJlcn0geiAtIFogYXhpcyByb3RhdGlvblxuICAgKiBAcGFyYW0ge2Jvb2xlYW59IFt1c2VFbWl0dGVyUm90YXRpb249dHJ1ZV0gLSBEZXRlcm1pbmVzIGlmIHdlIHNob3VsZCB1c2UgdGhlIGVtaXR0ZXIncyByb3RhdGlvbiBhcyB0aGUgc3RhcnRpbmcgcm90YXRpb25cbiAgICogQHBhcmFtIHtib29sZWFufSBbaXNFbmFibGVkPXRydWVdIC0gRGV0ZXJtaW5lcyBpZiB0aGUgaW5pdGlhbGl6ZXIgc2hvdWxkIGJlIGVuYWJsZWQgb3Igbm90XG4gICAqIEByZXR1cm4gdm9pZFxuICAgKi9cbiAgY29uc3RydWN0b3IoeCwgeSwgeiwgdXNlRW1pdHRlclJvdGF0aW9uPXRydWUsIGlzRW5hYmxlZCA9IHRydWUpIHtcbiAgICBzdXBlcih0eXBlLCBpc0VuYWJsZWQpO1xuICAgIHRoaXMucm90YXRpb24gPSBuZXcgVmVjdG9yMyh4LHkseik7XG4gICAgdGhpcy51c2VFbWl0dGVyUm90YXRpb24gPSB1c2VFbWl0dGVyUm90YXRpb247XG4gIH1cblxuICAvKipcbiAgICogU2V0cyB0aGUgcGFydGljbGUncyBpbml0aWFsIHJvdGF0aW9uLlxuICAgKlxuICAgKiBAcGFyYW0ge1BhcnRpY2xlfSBwYXJ0aWNsZSAtIHRoZSBwYXJ0aWNsZSB0byBpbml0aWFsaXplIHRoZSBwcm9wZXJ0eSBvblxuICAgKiBAcmV0dXJuIHZvaWRcbiAgICovXG4gIGluaXRpYWxpemUocGFydGljbGUpIHtcbiAgICBpZih0aGlzLnVzZUVtaXR0ZXJSb3RhdGlvbilcbiAgICB7XG4gICAgICAvLyBzZXQgaW5pdGlhbCBwYXJ0aWNsZSByb3RhdGlvbiB0byB0aGF0IG9mIHRoZSBwYXJ0aWNsZSdzIGVtaXR0ZXIgdGhlbiBhZGQgb3VyIHNldCByb3RhdGlvblxuICAgICAgcGFydGljbGUucm90YXRpb24uY29weShwYXJ0aWNsZS5wYXJlbnQucm90YXRpb24pLmFkZCh0aGlzLnJvdGF0aW9uKTtcbiAgICB9XG4gICAgZWxzZVxuICAgIHtcbiAgICAgIHBhcnRpY2xlLnJvdGF0aW9uLmNvcHkodGhpcy5yb3RhdGlvbik7XG4gICAgfVxuICB9XG5cbiAgc3RhdGljIGZyb21KU09OKGpzb24pIHtcbiAgICBjb25zdCB7IHgsIHksIHosIHVzZUVtaXR0ZXJSb3RhdGlvbiA9IHRydWUsIGlzRW5hYmxlZCA9IHRydWUgfSA9IGpzb247XG5cbiAgICByZXR1cm4gbmV3IFJvdGF0aW9uKHgsIHksIHosIHVzZUVtaXR0ZXJSb3RhdGlvbiwgaXNFbmFibGVkKTtcbiAgfVxufSJdfQ==

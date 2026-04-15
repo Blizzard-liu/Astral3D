@@ -1,0 +1,28 @@
+{
+    "name": "astral3d",
+    "version": "1.0.0",
+    "description": "Astral3D Engine",
+    "author": "ErSan <mlt131220@163.com>",
+    "scripts": {
+        "docs:dev": "pnpm run -C packages/docs docs:dev",
+        "docs:dev-clean": "pnpm run -C packages/docs docs:dev-clean",
+        "docs:build": "pnpm run -C packages/docs docs:build",
+        "docs:preview": "pnpm run -C packages/docs docs:preview",
+        "editor:dev": "pnpm run -C packages/editor dev",
+        "editor:build": "pnpm run sdk:build && pnpm run -C packages/editor build",
+        "editor:tsc": "pnpm run -C packages/editor tsc",
+        "editor:preview": "pnpm run -C packages/editor preview",
+        "sdk:dev": "pnpm run -C packages/sdk dev",
+        "sdk:build": "pnpm run -C packages/sdk build",
+        "examples:dev": "pnpm run -C packages/examples dev",
+        "examples:build": "pnpm run -C packages/examples build"
+    },
+    "engines": {
+        "node": ">=23.0.0"
+    },
+    "keywords": [],
+    "devDependencies": {
+        "prettier": "^3.7.4"
+    },
+    "packageManager": "pnpm@10.8.1"
+}

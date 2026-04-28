@@ -855,14 +855,14 @@ class Loader {
                         const file = zip[url];
 
                         if (file) {
-                            const blob = new Blob([file.buffer], { type: 'application/octet-stream' });
+                            const blob = new Blob([file.buffer as ArrayBuffer], { type: 'application/octet-stream' });
                             return URL.createObjectURL(blob);
                         }
 
                         return url;
                     });
 
-                    const extension = path.split('.').pop()?.toLowerCase();
+                    const extension = path.split(".").pop()?.toLowerCase();
                     switch (extension) {
                         case 'fbx':
                             {
@@ -880,7 +880,7 @@ class Loader {
                             {
                                 const loader = await this.createGLTFLoader();
 
-                                loader.parse(file.buffer, '', (result) => {
+                                loader.parse(file.buffer as ArrayBuffer, '', (result) => {
                                     const scene = result.scene;
 
                                     scene.animations.push(...result.animations);

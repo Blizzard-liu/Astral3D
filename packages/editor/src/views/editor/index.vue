@@ -15,7 +15,6 @@
 
 	const initLoading = ref(true);
 	const siderWidth = ref(300);
-	const isCesiumScene = ref(false);
 
 	const defaultInfo = defaultProjectInfo();
 	const sceneInfo = ref(defaultInfo.sceneInfo);
@@ -40,16 +39,6 @@
 				window.$message?.error(t("scene.Failed to get scene data"));
 				return;
 			}
-
-			if (res.data.cesiumConfig) {
-				if (typeof res.data.cesiumConfig === "string") {
-					res.data.cesiumConfig = JSON.parse(res.data.cesiumConfig);
-				}
-			} else {
-				res.data.cesiumConfig = undefined;
-			}
-
-			isCesiumScene.value = res.data.projectType === 1;
 
 			App.project.setKey("sceneInfo", res.data);
 			sceneInfo.value = res.data;
@@ -122,8 +111,7 @@
 				</n-layout-sider>
 
 				<n-layout-content>
-					<Layout.Scene v-if="!isCesiumScene"></Layout.Scene>
-					<!--          <Layout.Cesium v-else></Layout.Cesium>-->
+					<Layout.Scene />
 				</n-layout-content>
 
 				<n-layout-sider collapse-mode="transform" :collapsed-width="0" :width="siderWidth" :native-scrollbar="false" show-trigger="bar" bordered>

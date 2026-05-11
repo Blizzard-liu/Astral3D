@@ -64,14 +64,6 @@
 			return;
 		}
 
-		if (res.data.cesiumConfig) {
-			if (typeof res.data.cesiumConfig === "string") {
-				res.data.cesiumConfig = JSON.parse(res.data.cesiumConfig);
-			}
-		} else {
-			res.data.cesiumConfig = undefined;
-		}
-
 		App.project.setKey("sceneInfo", res.data);
 		sceneInfo.value = res.data;
 

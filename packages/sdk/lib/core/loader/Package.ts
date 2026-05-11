@@ -44,6 +44,11 @@ interface SourceData {
 	drawing?: string;
 }
 
+interface IZipGenerateFile {
+	name: string;
+	data: IAstralZip.Input;
+}
+
 interface GroupJson {
 	images: any[];
 	geometries: any[];
@@ -428,6 +433,48 @@ export class Package {
 	}
 
 	/**
+	 * 将场景分包源数据转换为 AstralZip 一次性打包文件列表。
+	 * @param sourceData 待打包数据
+	 * @returns {IZipGenerateFile[]} 返回 AstralZip 静态打包所需的文件描述列表
+	 */
+	private toAstralZipFiles(sourceData: SourceData[]): IZipGenerateFile[] {
+		return sourceData.reduce((result, item) => {
+			if (item.texture !== undefined) {
+				result.push({
+					name: `Textures/${item.name}`,
+					data: item.texture,
+				});
+				return result;
+			}
+
+			if (item.geometry !== undefined) {
+				result.push({
+					name: `Geometries/${item.name}`,
+					data: item.geometry,
+				});
+				return result;
+			}
+
+			if (item.drawing !== undefined) {
+				result.push({
+					name: `Drawing/${item.name}`,
+					data: item.drawing,
+				});
+				return result;
+			}
+
+			if (item.json !== undefined) {
+				result.push({
+					name: item.name,
+					data: item.json,
+				});
+			}
+
+			return result;
+		}, [] as IZipGenerateFile[]);
+	}
+
+	/**
 	 * zip 打包
 	 * @param sourceData 待打包数据
 	 * @param {string | number} zipName 打包文件名
@@ -435,56 +482,16 @@ export class Package {
 	 */
 	private async zip(sourceData: SourceData[], zipName: string | number, zipUploadFun: (zip: File) => Promise<any>): Promise<any> {
 		const AstralZip = await waitAstralZipConstructor();
-		const zipArchive = new AstralZip();
-		const imgFolder = zipArchive.folder("Textures"); // 贴图文件夹
-		const geometriesFolder = zipArchive.folder("Geometries"); // 几何数据文件夹
-		const drawingFolder = zipArchive.folder("Drawing"); // 图纸文件夹
+		const files = this.toAstralZipFiles(sourceData);
 
-		let content: Blob | null = null;
-		try {
-			sourceData.forEach(item => {
-				if (item.texture) {
-					imgFolder.file(item.name, item.texture, {
-						compression: "DEFLATE", //"STORE",//"DEFLATE
-						compressionOptions: {
-							level: 7,
-						},
-					});
-				} else if (item.geometry) {
-					geometriesFolder.file(item.name, item.geometry, {
-						compression: "DEFLATE", //"STORE",//"DEFLATE
-						compressionOptions: {
-							level: 7,
-						},
-					});
-				} else if (item.json) {
-					zipArchive.file(item.name, item.json, {
-						compression: "DEFLATE", //"STORE",//"DEFLATE
-						compressionOptions: {
-							level: 7,
-						},
-					});
-				} else if (item.drawing) {
-					drawingFolder.file(item.name, item.drawing, {
-						compression: "DEFLATE", //"STORE",//"DEFLATE
-						compressionOptions: {
-							level: 9,
-						},
-					});
-				}
-			});
-
-			content = (await zipArchive.generateAsync({
-				type: "blob",
-				compression: "DEFLATE",
-				compressionOptions: {
-					level: 7,
-				},
-				workers: getAstralZipWorkers(),
-			})) as Blob;
-		} finally {
-			zipArchive.dispose();
-		}
+		const content = (await AstralZip.generateAsync(files, {
+			type: "blob",
+			compression: "DEFLATE",
+			compressionOptions: {
+				level: 7,
+			},
+			workers: getAstralZipWorkers(),
+		})) as Blob;
 
 		if (!content) {
 			throw new Error("zip 打包失败");
